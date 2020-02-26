@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const Users = require("../users/users-model.js");
 
 module.exports = (req, res, next) => {
-  let { username, password } = req.headers;
+  /* let { username, password } = req.headers;
   console.log("headers:\n", req.headers);
   if (username && password) {
     Users.findBy({ username })
@@ -20,5 +20,11 @@ module.exports = (req, res, next) => {
       });
   } else {
     res.status(400).json({ message: "please provide credentials" });
+  } */
+
+  if (req.session && req.session.loggedIn) {
+    next();
+  } else {
+    res.status(401).json({ invalid: "access" });
   }
 };
